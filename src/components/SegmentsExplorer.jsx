@@ -87,11 +87,11 @@ export default function SegmentsExplorer({ catalogError }) {
   // Helper for sample badges (Black and White theme)
   const getSampleBadge = (sampleSize) => {
     if (sampleSize >= 15) {
-      return { text: 'Óptima', class: 'bg-zinc-900 text-zinc-50 border border-zinc-900', desc: 'Estadísticas robustas' };
+      return { text: 'Óptima', class: 'bg-emerald-50 text-emerald-700 border border-emerald-200/60', desc: 'Estadísticas robustas' };
     } else if (sampleSize >= 5) {
-      return { text: 'Media', class: 'bg-zinc-100 text-zinc-700 border border-zinc-200', desc: 'Datos referenciales' };
+      return { text: 'Media', class: 'bg-sky-50 text-sky-700 border border-sky-200/60', desc: 'Datos referenciales' };
     } else {
-      return { text: 'Baja', class: 'bg-white text-zinc-400 border border-zinc-200', desc: 'Muestra insuficiente' };
+      return { text: 'Baja', class: 'bg-amber-50 text-amber-700 border border-amber-200/60', desc: 'Muestra insuficiente' };
     }
   };
 
@@ -158,8 +158,8 @@ export default function SegmentsExplorer({ catalogError }) {
 
       {/* Results rendering */}
       {error && (
-        <div className="flex items-center gap-3 p-4 rounded-xl bg-zinc-50 border border-border/80 text-foreground text-xs leading-normal shadow-sm">
-          <AlertCircle size={16} className="shrink-0 text-zinc-500" />
+        <div className="flex items-center gap-3 p-4 rounded-xl bg-rose-50 border border-rose-200/80 text-rose-950 text-xs leading-normal shadow-sm">
+          <AlertCircle size={16} className="shrink-0 text-rose-500" />
           <span className="font-semibold">{error}</span>
         </div>
       )}
@@ -188,9 +188,9 @@ export default function SegmentsExplorer({ catalogError }) {
               Resultados: Cobertura de <strong className="text-foreground">{segments.length}</strong> tramos encontrados
             </span>
             <div className="flex gap-3.5 text-[10px] font-bold text-zinc-500">
-              <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded bg-zinc-900 shadow-sm"></span> Muestra &gt;= 15</span>
-              <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded bg-zinc-100 border border-zinc-300 shadow-sm"></span> Muestra 5 - 14</span>
-              <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded bg-white border border-zinc-200 shadow-sm"></span> Muestra &lt; 5</span>
+              <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded bg-emerald-500 shadow-sm"></span> Muestra &gt;= 15</span>
+              <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded bg-sky-400 shadow-sm"></span> Muestra 5 - 14</span>
+              <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded bg-amber-400 shadow-sm"></span> Muestra &lt; 5</span>
             </div>
           </div>
 

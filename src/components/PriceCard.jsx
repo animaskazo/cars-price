@@ -34,7 +34,7 @@ export default function PriceCard({ data, searchedVehicle }) {
   if (!estimated_price_clp || sample_size === 0) {
     return (
       <Card className="glass-card p-8 h-full flex flex-col items-center justify-center text-center bg-card shadow-lg rounded-2xl">
-        <AlertTriangle size={40} className="text-zinc-500 mb-3 animate-pulse-slow" />
+        <AlertTriangle size={40} className="text-amber-500 mb-3 animate-pulse-slow" />
         <h3 className="text-base font-extrabold text-foreground mb-2 tracking-tight">
           Muestra de Mercado Insuficiente
         </h3>
@@ -77,9 +77,9 @@ export default function PriceCard({ data, searchedVehicle }) {
 
   // Confidence indicators mapping
   const confidenceConfig = {
-    high: { label: 'Confianza Alta', class: 'bg-zinc-900 text-zinc-50 border border-zinc-900 shadow-md', icon: Award },
-    medium: { label: 'Confianza Media', class: 'bg-zinc-900 text-zinc-50 border border-zinc-900 shadow-md', icon: Award },
-    low: { label: 'Confianza Baja', class: 'bg-zinc-100 text-zinc-700 border border-zinc-200 shadow-sm', icon: AlertTriangle }
+    high: { label: 'Confianza Alta', class: 'bg-emerald-50 text-emerald-700 border border-emerald-200/60 shadow-sm', icon: Award },
+    medium: { label: 'Confianza Media', class: 'bg-sky-50 text-sky-700 border border-sky-200/60 shadow-sm', icon: Award },
+    low: { label: 'Confianza Baja', class: 'bg-amber-50 text-amber-700 border border-amber-200/60 shadow-sm', icon: AlertTriangle }
   };
 
   const currentConf = confidenceConfig[confidence?.toLowerCase()] || confidenceConfig.medium;
@@ -137,11 +137,11 @@ export default function PriceCard({ data, searchedVehicle }) {
 
       {/* Warning if Confidence is Low */}
       {confidence?.toLowerCase() === 'low' && (
-        <Alert className="bg-zinc-50 border border-border/80 text-zinc-700 p-4 rounded-xl flex gap-3 shadow-sm">
-          <AlertTriangle size={18} className="shrink-0 mt-0.5 text-zinc-500" />
+        <Alert className="bg-amber-50/50 border border-amber-200/80 text-amber-950 p-4 rounded-xl flex gap-3 shadow-sm">
+          <AlertTriangle size={18} className="shrink-0 mt-0.5 text-amber-500" />
           <div>
-            <AlertTitle className="text-xs font-bold block mb-0.5 text-foreground leading-none">Advertencia de Muestra Reducida</AlertTitle>
-            <AlertDescription className="text-[11px] leading-relaxed text-muted-foreground font-semibold">
+            <AlertTitle className="text-xs font-extrabold block mb-0.5 text-amber-900 leading-none">Advertencia de Muestra Reducida</AlertTitle>
+            <AlertDescription className="text-[11px] leading-relaxed text-amber-800 font-semibold font-semibold">
               La confianza de esta estimación es **Baja** debido a que se basa en solo {sample_size} publicaciones. Te sugerimos tomar este valor con cautela.
             </AlertDescription>
           </div>

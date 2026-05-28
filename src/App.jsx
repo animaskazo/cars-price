@@ -194,11 +194,11 @@ export default function App() {
           {/* Render Active Tab */}
           <TabsContent value="calculate" className="flex flex-col gap-6 outline-none">
             {apiError && (
-              <div className="flex items-start gap-3 p-4 rounded-sm bg-zinc-50 border border-border text-foreground leading-normal">
-                <AlertTriangle size={18} className="shrink-0 mt-0.5 text-zinc-500" />
+              <div className="flex items-start gap-3 p-4 rounded-xl bg-rose-50 border border-rose-200/80 text-rose-950 leading-normal shadow-sm">
+                <AlertTriangle size={18} className="shrink-0 mt-0.5 text-rose-500" />
                 <div>
-                  <strong className="text-sm block mb-0.5">Fallo en la Solicitud</strong>
-                  <span className="text-xs text-muted-foreground">{apiError}</span>
+                  <strong className="text-sm block mb-0.5 font-extrabold text-rose-900">Fallo en la Solicitud</strong>
+                  <span className="text-xs text-rose-800 font-semibold">{apiError}</span>
                 </div>
               </div>
             )}

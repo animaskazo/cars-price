@@ -375,8 +375,8 @@ export default function TrendsChart({ initialVehicle }) {
 
       {/* Render Chart Panel */}
       {error && (
-        <div className="flex items-center gap-3 p-4 rounded-xl bg-zinc-50 border border-border/80 text-foreground text-xs leading-normal shadow-sm">
-          <AlertCircle size={16} className="shrink-0 text-zinc-500" />
+        <div className="flex items-center gap-3 p-4 rounded-xl bg-rose-50 border border-rose-200/80 text-rose-950 text-xs leading-normal shadow-sm">
+          <AlertCircle size={16} className="shrink-0 text-rose-500" />
           <span className="font-semibold">{error}</span>
         </div>
       )}

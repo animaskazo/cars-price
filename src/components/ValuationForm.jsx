@@ -135,9 +135,9 @@ export default function ValuationForm({ onSubmit, loading, catalogError, onRetry
       
       <CardContent className="p-0">
         {catalogError ? (
-          <div className="text-center py-6 bg-zinc-50/50 rounded-2xl border border-border border-dashed">
-            <AlertCircle size={28} className="text-zinc-400 mx-auto mb-3 animate-pulse" />
-            <p className="text-xs text-muted-foreground mb-4 font-semibold">
+          <div className="text-center py-6 bg-rose-50/20 rounded-2xl border border-rose-200/80 border-dashed">
+            <AlertCircle size={28} className="text-rose-500 mx-auto mb-3 animate-pulse" />
+            <p className="text-xs text-rose-950 mb-4 font-semibold">
               No se pudo cargar el catálogo de vehículos.
             </p>
             <Button 
@@ -145,7 +145,7 @@ export default function ValuationForm({ onSubmit, loading, catalogError, onRetry
               onClick={onRetryCatalog} 
               variant="outline"
               size="sm"
-              className="inline-flex items-center gap-1.5 cursor-pointer rounded-xl shadow-sm border-border hover:bg-zinc-100 font-bold px-4 py-2"
+              className="inline-flex items-center gap-1.5 cursor-pointer rounded-xl shadow-sm border-rose-200 hover:bg-rose-50 hover:text-rose-700 font-bold px-4 py-2 bg-background transition-colors"
             >
               <RefreshCw size={12} /> Reintentar Carga
             </Button>
@@ -224,8 +224,8 @@ export default function ValuationForm({ onSubmit, loading, catalogError, onRetry
             </div>
 
             {validationError && (
-              <div className="flex items-start gap-2 p-4 rounded-xl bg-zinc-50 border border-border text-foreground text-xs leading-normal font-semibold">
-                <AlertCircle size={14} className="shrink-0 mt-0.5 text-zinc-500" />
+              <div className="flex items-start gap-2 p-4 rounded-xl bg-rose-50 border border-rose-200/80 text-rose-950 text-xs leading-normal font-semibold shadow-sm">
+                <AlertCircle size={14} className="shrink-0 mt-0.5 text-rose-500" />
                 <span>{validationError}</span>
               </div>
             )}

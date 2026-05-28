@@ -57,14 +57,14 @@ export default function Navbar({ onOpenSettings }) {
           </span>
         )}
         {healthStatus === 'ok' && (
-          <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-zinc-900 text-zinc-50 border border-zinc-900 shadow-sm">
-            <Activity size={12} />
+          <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-50 text-emerald-700 border border-emerald-200/60 shadow-sm">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
             API Activa
           </span>
         )}
         {healthStatus === 'error' && (
-          <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-red-50 text-red-600 border border-red-200">
-            <ShieldAlert size={12} />
+          <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-rose-50 text-rose-600 border border-rose-200/80 shadow-sm">
+            <ShieldAlert size={12} className="text-rose-500" />
             Sin Conexión
           </span>
         )}
