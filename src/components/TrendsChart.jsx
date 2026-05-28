@@ -27,7 +27,7 @@ ChartJS.register(
   Filler
 );
 
-export default function TrendsChart({ initialVehicle }) {
+export default function TrendsChart({ initialVehicle, isKeyPlaceholder }) {
   const [catalog, setCatalog] = useState([]);
   const [makes, setMakes] = useState([]);
   const [models, setModels] = useState([]);
@@ -51,11 +51,13 @@ export default function TrendsChart({ initialVehicle }) {
   // Load catalog on mount
   useEffect(() => {
     const fetchCatalog = async () => {
-      if (!apiKey || apiKey === 'tu_api_key_aqui') return;
+      if (isKeyPlaceholder) return;
       try {
-        const res = await fetch(`${apiBaseUrl}/catalog`, {
-          headers: { 'X-API-Key': apiKey }
-        });
+        const headers = {};
+        if (apiKey && apiKey !== 'tu_api_key_aqui' && apiKey.trim() !== '') {
+          headers['X-API-Key'] = apiKey;
+        }
+        const res = await fetch(`${apiBaseUrl}/catalog`, { headers });
         if (res.ok) {
           const data = await res.json();
           if (data && data.items) {
@@ -94,7 +96,7 @@ export default function TrendsChart({ initialVehicle }) {
       }
     };
     fetchCatalog();
-  }, [apiBaseUrl, apiKey]);
+  }, [apiBaseUrl, apiKey, isKeyPlaceholder]);
 
   // Synchronize dropdowns when brand changes
   const handleMakeChange = (e) => {
@@ -125,12 +127,11 @@ export default function TrendsChart({ initialVehicle }) {
     setLoading(true);
     setSearched(true);
     try {
-      const res = await fetch(`${apiBaseUrl}/market-price/monthly-average?make=${encodeURIComponent(make)}&model=${encodeURIComponent(model)}&model_year=${year}`, {
-        headers: {
-          'X-API-Key': apiKey,
-          'Content-Type': 'application/json'
-        }
-      });
+      const headers = {};
+      if (apiKey && apiKey !== 'tu_api_key_aqui' && apiKey.trim() !== '') {
+        headers['X-API-Key'] = apiKey;
+      }
+      const res = await fetch(`${apiBaseUrl}/market-price/monthly-average?make=${encodeURIComponent(make)}&model=${encodeURIComponent(model)}&model_year=${year}`, { headers });
 
       if (res.ok) {
         const data = await res.json();

@@ -19,6 +19,7 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [valuationData, setValuationData] = useState(null);
   const [searchedVehicle, setSearchedVehicle] = useState(null);
+  const [isBffValidated, setIsBffValidated] = useState(false);
   
   // Errors states
   const [apiError, setApiError] = useState('');
@@ -28,29 +29,32 @@ export default function App() {
   const [showSettingsModal, setShowSettingsModal] = useState(false);
   const [settingsTestResult, setSettingsTestResult] = useState(''); // testing, success, error, unauthorized
 
-  // Key validation flag
-  const isKeyPlaceholder = !apiKey || apiKey === 'tu_api_key_aqui' || apiKey.trim() === '';
+  // Key validation flag (bypassed in production once perimetral BFF proxy resolves successfully)
+  const isKeyPlaceholder = (!apiKey || apiKey === 'tu_api_key_aqui' || apiKey.trim() === '') && !isBffValidated;
 
-  // Auto-validate connection when key is loaded
+  // Auto-validate connection when key is loaded or on mount (to detect Vercel server-side BFF proxy)
   useEffect(() => {
-    if (!isKeyPlaceholder) {
-      testApiConnection();
-    }
+    testApiConnection();
   }, [apiKey, apiBaseUrl]);
 
   const testApiConnection = async () => {
     setCatalogError(false);
     try {
-      const res = await fetch(`${apiBaseUrl}/catalog`, {
-        headers: { 'X-API-Key': apiKey }
-      });
+      const headers = {};
+      if (apiKey && apiKey !== 'tu_api_key_aqui' && apiKey.trim() !== '') {
+        headers['X-API-Key'] = apiKey;
+      }
+      const res = await fetch(`${apiBaseUrl}/catalog`, { headers });
       if (res.ok) {
         setCatalogError(false);
+        setIsBffValidated(true); // Secure perimetral gateway resolved successfully!
       } else {
         setCatalogError(true);
+        setIsBffValidated(false);
       }
     } catch (err) {
       setCatalogError(true);
+      setIsBffValidated(false);
     }
   };
 
@@ -65,19 +69,18 @@ export default function App() {
     const url = `${apiBaseUrl}/market-price?make=${encodeURIComponent(make)}&model=${encodeURIComponent(model)}&year=${year}&mileage_km=${mileage_km}`;
 
     try {
-      const res = await fetch(url, {
-        headers: {
-          'X-API-Key': apiKey,
-          'Content-Type': 'application/json'
-        }
-      });
+      const headers = {};
+      if (apiKey && apiKey !== 'tu_api_key_aqui' && apiKey.trim() !== '') {
+        headers['X-API-Key'] = apiKey;
+      }
+      const res = await fetch(url, { headers });
 
       if (res.ok) {
         const data = await res.json();
         setValuationData(data);
       } else {
         if (res.status === 401) {
-          setApiError('401: API Key inválida o vencida. Por favor, edita tu archivo .env.');
+          setApiError('401: API Key inválida o vencida. Por favor, edita tu archivo .env o las variables de entorno de Vercel.');
         } else if (res.status === 422) {
           setApiError('422: Parámetros inválidos. Por favor valida el kilometraje y año ingresado.');
         } else if (res.status === 429) {
@@ -101,12 +104,15 @@ export default function App() {
       const resHealth = await fetch(`${apiBaseUrl}/health`);
       const isHealthOk = resHealth.ok;
       
-      const resCatalog = await fetch(`${apiBaseUrl}/catalog`, {
-        headers: { 'X-API-Key': apiKey }
-      });
+      const headers = {};
+      if (apiKey && apiKey !== 'tu_api_key_aqui' && apiKey.trim() !== '') {
+        headers['X-API-Key'] = apiKey;
+      }
+      const resCatalog = await fetch(`${apiBaseUrl}/catalog`, { headers });
       
       if (isHealthOk && resCatalog.ok) {
         setSettingsTestResult('success');
+        setIsBffValidated(true);
       } else if (resCatalog.status === 401) {
         setSettingsTestResult('unauthorized');
       } else {
@@ -210,6 +216,7 @@ export default function App() {
                   loading={loading}
                   catalogError={catalogError}
                   onRetryCatalog={testApiConnection}
+                  isKeyPlaceholder={isKeyPlaceholder}
                 />
               </div>
               <div>
@@ -219,11 +226,11 @@ export default function App() {
           </TabsContent>
 
           <TabsContent value="segments" className="outline-none">
-            <SegmentsExplorer catalogError={catalogError} />
+            <SegmentsExplorer catalogError={catalogError} isKeyPlaceholder={isKeyPlaceholder} />
           </TabsContent>
 
           <TabsContent value="history" className="outline-none">
-            <TrendsChart initialVehicle={searchedVehicle} />
+            <TrendsChart initialVehicle={searchedVehicle} isKeyPlaceholder={isKeyPlaceholder} />
           </TabsContent>
         </Tabs>
       )}

@@ -5,7 +5,7 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 
-export default function ValuationForm({ onSubmit, loading, catalogError, onRetryCatalog }) {
+export default function ValuationForm({ onSubmit, loading, catalogError, onRetryCatalog, isKeyPlaceholder }) {
   const [catalog, setCatalog] = useState([]);
   const [makes, setMakes] = useState([]);
   const [models, setModels] = useState([]);
@@ -29,16 +29,15 @@ export default function ValuationForm({ onSubmit, loading, catalogError, onRetry
   // Fetch catalog on mount
   useEffect(() => {
     const fetchCatalog = async () => {
-      if (!apiKey || apiKey === 'tu_api_key_aqui') {
+      if (isKeyPlaceholder) {
         return;
       }
       try {
-        const res = await fetch(`${apiBaseUrl}/catalog`, {
-          headers: {
-            'X-API-Key': apiKey,
-            'Content-Type': 'application/json'
-          }
-        });
+        const headers = {};
+        if (apiKey && apiKey !== 'tu_api_key_aqui' && apiKey.trim() !== '') {
+          headers['X-API-Key'] = apiKey;
+        }
+        const res = await fetch(`${apiBaseUrl}/catalog`, { headers });
         if (res.ok) {
           const data = await res.json();
           if (data && data.items) {

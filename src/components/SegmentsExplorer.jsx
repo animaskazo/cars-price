@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 
-export default function SegmentsExplorer({ catalogError }) {
+export default function SegmentsExplorer({ catalogError, isKeyPlaceholder }) {
   const [makes, setMakes] = useState([]);
   const [selectedMake, setSelectedMake] = useState('');
   const [sinceYear, setSinceYear] = useState('2022');
@@ -19,11 +19,13 @@ export default function SegmentsExplorer({ catalogError }) {
   // Get distinct makes from catalog
   useEffect(() => {
     const fetchMakes = async () => {
-      if (!apiKey || apiKey === 'tu_api_key_aqui') return;
+      if (isKeyPlaceholder) return;
       try {
-        const res = await fetch(`${apiBaseUrl}/catalog`, {
-          headers: { 'X-API-Key': apiKey }
-        });
+        const headers = {};
+        if (apiKey && apiKey !== 'tu_api_key_aqui' && apiKey.trim() !== '') {
+          headers['X-API-Key'] = apiKey;
+        }
+        const res = await fetch(`${apiBaseUrl}/catalog`, { headers });
         if (res.ok) {
           const data = await res.json();
           if (data && data.items) {
@@ -39,7 +41,7 @@ export default function SegmentsExplorer({ catalogError }) {
       }
     };
     fetchMakes();
-  }, [apiBaseUrl, apiKey]);
+  }, [apiBaseUrl, apiKey, isKeyPlaceholder]);
 
   const handleFetchSegments = async (e) => {
     e.preventDefault();
@@ -51,12 +53,11 @@ export default function SegmentsExplorer({ catalogError }) {
     setLoading(true);
     setSearched(true);
     try {
-      const res = await fetch(`${apiBaseUrl}/segments?make=${encodeURIComponent(selectedMake)}&since_year=${sinceYear}`, {
-        headers: {
-          'X-API-Key': apiKey,
-          'Content-Type': 'application/json'
-        }
-      });
+      const headers = {};
+      if (apiKey && apiKey !== 'tu_api_key_aqui' && apiKey.trim() !== '') {
+        headers['X-API-Key'] = apiKey;
+      }
+      const res = await fetch(`${apiBaseUrl}/segments?make=${encodeURIComponent(selectedMake)}&since_year=${sinceYear}`, { headers });
 
       if (res.ok) {
         const data = await res.json();
