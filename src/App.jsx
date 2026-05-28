@@ -14,17 +14,17 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('calculate'); // calculate, segments, history
   const [apiKey, setApiKey] = useState(import.meta.env.VITE_API_KEY || '');
   const [apiBaseUrl, setApiBaseUrl] = useState(import.meta.env.VITE_API_BASE_URL || '/api');
-  
+
   // App states
   const [loading, setLoading] = useState(false);
   const [valuationData, setValuationData] = useState(null);
   const [searchedVehicle, setSearchedVehicle] = useState(null);
   const [isBffValidated, setIsBffValidated] = useState(false);
-  
+
   // Errors states
   const [apiError, setApiError] = useState('');
   const [catalogError, setCatalogError] = useState(false);
-  
+
   // Modal / Settings state
   const [showSettingsModal, setShowSettingsModal] = useState(false);
   const [settingsTestResult, setSettingsTestResult] = useState(''); // testing, success, error, unauthorized
@@ -103,13 +103,13 @@ export default function App() {
     try {
       const resHealth = await fetch(`${apiBaseUrl}/health`);
       const isHealthOk = resHealth.ok;
-      
+
       const headers = {};
       if (apiKey && apiKey !== 'tu_api_key_aqui' && apiKey.trim() !== '') {
         headers['X-API-Key'] = apiKey;
       }
       const resCatalog = await fetch(`${apiBaseUrl}/catalog`, { headers });
-      
+
       if (isHealthOk && resCatalog.ok) {
         setSettingsTestResult('success');
         setIsBffValidated(true);
@@ -151,15 +151,15 @@ export default function App() {
           </div>
 
           <div className="flex flex-wrap gap-4 justify-center">
-            <Button 
+            <Button
               onClick={() => window.location.reload()}
               className="flex items-center gap-2 cursor-pointer bg-primary text-primary-foreground hover:bg-zinc-800 font-bold rounded-xl py-4 px-6 text-xs h-10 shadow-md btn-hover-effect"
             >
               <RefreshCw size={14} />
               <span>Recargar Aplicación</span>
             </Button>
-            
-            <Button 
+
+            <Button
               onClick={() => setShowSettingsModal(true)}
               variant="outline"
               className="flex items-center gap-2 cursor-pointer border-border hover:bg-zinc-50 font-bold rounded-xl py-4 px-6 text-xs h-10 transition-colors shadow-sm"
@@ -174,22 +174,22 @@ export default function App() {
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           {/* Tabs Navigator - Beautiful glassmorphic rounded pill list */}
           <TabsList className="grid grid-cols-3 bg-zinc-100/60 backdrop-blur-md border border-border/80 h-12 p-1.5 rounded-full mb-8 w-full shadow-inner">
-            <TabsTrigger 
-              value="calculate" 
+            <TabsTrigger
+              value="calculate"
               className="cursor-pointer font-bold text-xs flex gap-1.5 justify-center items-center data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm rounded-full py-2 transition-all duration-300"
             >
               <DollarSign size={14} />
               <span>Calculadora de Precios</span>
             </TabsTrigger>
-            <TabsTrigger 
-              value="segments" 
+            <TabsTrigger
+              value="segments"
               className="cursor-pointer font-bold text-xs flex gap-1.5 justify-center items-center data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm rounded-full py-2 transition-all duration-300"
             >
               <Layers size={14} />
               <span>Explorador de Cobertura</span>
             </TabsTrigger>
-            <TabsTrigger 
-              value="history" 
+            <TabsTrigger
+              value="history"
               className="cursor-pointer font-bold text-xs flex gap-1.5 justify-center items-center data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm rounded-full py-2 transition-all duration-300"
             >
               <TrendingUp size={14} />
@@ -211,8 +211,8 @@ export default function App() {
 
             <div className="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-7 items-start">
               <div>
-                <ValuationForm 
-                  onSubmit={handleCalculatePrice} 
+                <ValuationForm
+                  onSubmit={handleCalculatePrice}
                   loading={loading}
                   catalogError={catalogError}
                   onRetryCatalog={testApiConnection}
@@ -273,7 +273,7 @@ export default function App() {
               <h4 className="text-xs font-extrabold mb-2 text-foreground tracking-tight">
                 Resultados del Diagnóstico:
               </h4>
-              
+
               {settingsTestResult === 'testing' && (
                 <p className="text-xs text-zinc-500 flex items-center gap-2 animate-pulse-slow font-medium">
                   <RefreshCw size={12} className="animate-spin-slow" /> Validando firma de API y servicios de red...
@@ -298,8 +298,8 @@ export default function App() {
           </div>
 
           <div className="flex gap-3 justify-end">
-            <Button 
-              onClick={handleTestInSettings} 
+            <Button
+              onClick={handleTestInSettings}
               variant="outline"
               className="text-xs py-1 px-3.5 flex items-center gap-1.5 cursor-pointer border-border text-foreground hover:bg-zinc-50 rounded-xl h-9 font-bold shadow-sm"
               disabled={settingsTestResult === 'testing'}
@@ -307,8 +307,8 @@ export default function App() {
               <RefreshCw size={12} />
               <span>Re-Probar</span>
             </Button>
-            <Button 
-              onClick={() => setShowSettingsModal(false)} 
+            <Button
+              onClick={() => setShowSettingsModal(false)}
               className="text-xs py-1 px-4 cursor-pointer bg-primary text-primary-foreground font-bold rounded-xl h-9 hover:bg-zinc-800 shadow-md btn-hover-effect"
             >
               <span>Entendido</span>
@@ -319,7 +319,7 @@ export default function App() {
 
       {/* Embedded footer */}
       <footer className="text-center mt-12 border-t border-border pt-4 text-[11px] text-muted-foreground flex flex-col gap-1 font-medium">
-        <p>© 2026 PreciosAutos MVP. Construido en React & Vite para NucoLab.</p>
+        <p>© 2026 PreciosAutos MVP. Construido por Super Digital Solutions.</p>
         <p>
           Para editar configuraciones, abre el archivo local <code className="text-[10px] bg-zinc-50 px-1 py-0.5 rounded border border-border font-mono">.env</code>.
         </p>
