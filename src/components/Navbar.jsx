@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 
 export default function Navbar({ onOpenSettings }) {
   const [healthStatus, setHealthStatus] = useState('checking'); // checking, ok, error
-  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'https://api-precioautos.nucolab.cl';
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || '/api';
 
   const checkHealth = async () => {
     setHealthStatus('checking');

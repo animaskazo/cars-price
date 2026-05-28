@@ -13,7 +13,7 @@ export default function SegmentsExplorer({ catalogError }) {
   const [error, setError] = useState('');
   const [searched, setSearched] = useState(false);
 
-  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'https://api-precioautos.nucolab.cl';
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || '/api';
   const apiKey = import.meta.env.VITE_API_KEY || '';
 
   // Get distinct makes from catalog

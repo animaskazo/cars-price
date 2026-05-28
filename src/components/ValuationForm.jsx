@@ -19,7 +19,7 @@ export default function ValuationForm({ onSubmit, loading, catalogError, onRetry
   
   const [validationError, setValidationError] = useState('');
 
-  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'https://api-precioautos.nucolab.cl';
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || '/api';
   const apiKey = import.meta.env.VITE_API_KEY || '';
 
   // Generate years from current year down to 1990
